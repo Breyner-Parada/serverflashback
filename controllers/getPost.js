@@ -4,19 +4,19 @@ import { Collection } from "../models/model.js";
 export const getPosts = async (req, res) => {
   const { page } = req.query;
   try {
-    const limit = 6;
-    const startIndex = (Number(page) - 1) * limit;
+    const LIMIT = 6;
+    const startIndex = (Number(page) - 1) * LIMIT;
     const total = await Collection.countDocuments({});
     const posts = await Collection.find()
       .sort({ _id: -1 })
-      .limit(limit)
+      .limit(LIMIT)
       .skip(startIndex);
     res
       .status(200)
       .json({
         data: posts,
         currentPage: Number(page),
-        numberOfPages: Math.ceil(total / limit),
+        numberOfPages: Math.ceil(total / LIMIT),
       });
   } catch (error) {
     res.send(error);
