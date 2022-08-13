@@ -2,14 +2,22 @@ import mongoose from "mongoose";
 import { Collection } from "../models/model.js";
 
 export const getPosts = async (req, res) => {
-  const {page} = req.query;
+  const { page } = req.query;
   try {
     const limit = 6;
     const startIndex = (Number(page) - 1) * limit;
     const total = await Collection.countDocuments({});
-
-    const posts = await Collection.find().sort({_id: -1}).limit(limit).skip(startIndex);
-    res.status(200).json({data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / limit) });
+    const posts = await Collection.find()
+      .sort({ _id: -1 })
+      .limit(limit)
+      .skip(startIndex);
+    res
+      .status(200)
+      .json({
+        data: posts,
+        currentPage: Number(page),
+        numberOfPages: Math.ceil(total / limit),
+      });
   } catch (error) {
     res.send(error);
   }
@@ -21,7 +29,7 @@ export const getPost = async (req, res) => {
     const post = await Collection.findById(id);
     res.status(200).json(post);
   } catch (error) {
-    res.json({Message: error.message});
+    res.json({ Message: error.message });
   }
 };
 
@@ -30,7 +38,6 @@ export const getPostsBySearch = async (req, res) => {
 
   try {
     const title = new RegExp(searchQuery, "i");
-
     const posts = await Collection.find({
       $or: [{ title }, { tags: { $in: tags.split(",") } }],
     });
