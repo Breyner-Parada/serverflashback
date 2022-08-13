@@ -11,13 +11,11 @@ export const getPosts = async (req, res) => {
       .sort({ _id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
-    res
-      .status(200)
-      .json({
-        data: posts,
-        currentPage: Number(page),
-        numberOfPages: Math.ceil(total / LIMIT),
-      });
+    res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT),
+    });
   } catch (error) {
     res.send(error);
   }
@@ -124,4 +122,17 @@ export const likePost = async (req, res) => {
     });
     res.json(updatePost);
   } catch (error) {}
+};
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+
+  const post = await Collection.findById(id);
+
+  post.comments.push(value);
+  const updatedPost = await Collection.findByIdAndUpdate(id, post, {
+    new: true,
+  });
+  res.status(201).json(updatedPost);
 };

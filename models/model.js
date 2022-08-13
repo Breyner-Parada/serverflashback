@@ -9,20 +9,21 @@ const modelSchema = mongoose.Schema(
     tags: [String],
     selectedFile: String,
     likes: {
-        type: [String],
-        default: []
+      type: [String],
+      default: [],
+    },
+    comments: {
+      type: [String],
+      default: [],
     },
     createdAt: {
-        type: Date,
-        default: new Date()
-    }
+      type: Date,
+      default: new Date(),
+    },
   },
   {
     versionKey: false,
   }
 );
 
-
 export const Collection = mongoose.model("collection", modelSchema);
-
-
