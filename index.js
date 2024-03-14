@@ -3,6 +3,7 @@ import cors from "cors";
 import { main } from "./lib/mongo.js";
 import { routerWeb } from "./routes/index.js";
 import { config } from "./config/index.js";
+import path from "path";
 
 const app = express();
 const port = config.port;
