@@ -16,7 +16,7 @@ app.use(cors());
 routerWeb(app);
 
 app.use((req, res, next) => {
-  res.sendFile(path.join("/app", "public", "index.html"));
+  res.sendFile(path.join("/", "routes", "index.js"));
 });
 
 app.get("/", (req, res) => {
