@@ -11,13 +11,10 @@ const port = config.port;
 main();
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use("/app", express.static("public"));
+app.use("/app", express.static("public", "index.html"));
 app.use(cors());
 routerWeb(app);
 
-app.use('*', (req, res, next) => {
-  res.sendFile(path.join("routes", "index.js"));
-});
 
 app.get("/", (req, res) => {
   res.send("Welcome to the FLASHBACK API");
